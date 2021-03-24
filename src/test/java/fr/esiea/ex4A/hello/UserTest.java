@@ -12,7 +12,7 @@ class UserTest {
     @ParameterizedTest
     @ValueSource(strings = {"{\"userEmail\":\"ssoto@et.esiea.fr\",\"userName\":\"Sébastien\",\"userTweeter\":\"Sebastienlb94\",\"userCountry\":\"FR\",\"userSex\":\"M\",\"userSexPref\":\"F\"}"
     })
-    void user_from_Json_test(String json){
+    void user_test(String json){
         try {
             User user = new ObjectMapper().readValue(json, User.class);
             System.out.println(user.toString());
