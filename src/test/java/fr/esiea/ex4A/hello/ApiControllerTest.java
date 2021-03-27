@@ -54,29 +54,29 @@ class ApiControllerTest {
     @Order(2)
     void get_matches_few_users_registered() throws Exception {
         List<User> users = List.of(
-            new User("test@et.esiea.fr", "Max", "Max01", "FR", "M", "F", 23),
-            new User("test@et.esiea.fr", "Samba", "Samba02", "IT", "M", "M", 23),
-            new User("test@et.esiea.fr", "Marc", "Marc03", "FR", "M", "F", 51),
-            new User("test@et.esiea.fr", "Marie", "Marie04", "FR", "F", "M", 29)
+            new User("test@test.come", "pierre", "pierre86", "FR", "M", "M", 53),
+            new User("test@test.come", "jean", "jeanno", "FR", "M", "M", 55),
+            new User("test@test.come", "thierry", "thenry", "FR", "M", "M", 51),
+            new User("test@test.come", "julie", "julie", "FR", "F", "M", 32)
         );
 
         doReturn(users).when(repository).getUsers();
 
         mockMvc
             .perform(MockMvcRequestBuilders.get("/api/matches")
-                .queryParam("userName", "Max")
+                .queryParam("userName", "jean")
                 .queryParam("userCountry", "FR")
             )
             .andExpect(status().isOk())
             .andExpect(content().json("""
                   [
                       {
-                        "name": "Max",
-                        "twitter": "Max01"
+                        "name": "pierre",
+                        "twitter": "pierre86"
                       },
                       {
-                        "name": "Marc",
-                        "twitter": "Marc03"
+                        "name": "thierry",
+                        "twitter": "thenry"
                       }
                     ]
                 """)
