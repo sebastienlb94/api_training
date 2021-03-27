@@ -3,34 +3,49 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
 
-    public final String userEmail;
-    public final String userName;
-    public final String userTweeter;
-    public final String userCountry;
-    public final Sexe userSex;
-    public final Sexe userSexPref;
+    private final String userEmail;
+    private final String userName;
+    private final String userTweeter;
+    private final String userCountry;
+    private final String userSex;
+    private final String userSexPref;
+    private final Integer userAge;
 
-
-    public User(@JsonProperty("userEmail") String userEmail,@JsonProperty("userName")  String userName,
-                @JsonProperty("userTweeter") String userTweeter,@JsonProperty("userCountry")  String userCountry,
-                @JsonProperty("userSex") Sexe userSex,@JsonProperty("userSexPref")  Sexe userSexPref) {
+    public User(String userEmail, String userName, String userTweeter, String userCountry, String userSex, String userSexPref, Integer userAge) {
         this.userEmail = userEmail;
         this.userName = userName;
         this.userTweeter = userTweeter;
         this.userCountry = userCountry;
         this.userSex = userSex;
         this.userSexPref = userSexPref;
+        this.userAge = userAge;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-            "userEmail='" + userEmail + '\'' +
-            ", userName='" + userName + '\'' +
-            ", userTweeter='" + userTweeter + '\'' +
-            ", userCountry='" + userCountry + '\'' +
-            ", userSex=" + userSex +
-            ", userSexPref=" + userSexPref +
-            '}';
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getUserTweeter() {
+        return userTweeter;
+    }
+
+    public String getUserCountry() {
+        return userCountry;
+    }
+
+    public String getUserSex() {
+        return userSex;
+    }
+
+    public String getUserSexPref() {
+        return userSexPref;
+    }
+
+    public Integer getUserAge() {
+        return userAge;
     }
 }
