@@ -1,12 +1,25 @@
 package fr.esiea.ex4A.lovemeet;
 
+import org.springframework.stereotype.Service;
 import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
+import retrofit2.Response;
 
-public interface AgifyService {
+import java.io.IOException;
+import java.util.Map;
 
-    @GET("?")
-    Call<UserAgify> getAgeOf(@Query("name") String name,@Query("country_id") String country);
+@Service
+public class AgifyService {
 
+    private final AgifyClient agifyClient;
+
+    public AgifyService(AgifyClient agifyClient) {
+        this.agifyClient = agifyClient;
+    }
+
+    public Integer getAge(String name, String countryId) throws IOException {
+        Call<Map<String, String>> apiCall = agifyClient.getAge(name, countryId);
+
+        Response<Map<String, String>> response = apiCall.execute();
+        return Integer.parseInt(response.body().getOrDefault("age", "21"));
+    }
 }

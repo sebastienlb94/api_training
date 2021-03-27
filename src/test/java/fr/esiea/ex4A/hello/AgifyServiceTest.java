@@ -1,43 +1,23 @@
 package fr.esiea.ex4A.hello;
 import fr.esiea.ex4A.lovemeet.AgifyService;
-import fr.esiea.ex4A.lovemeet.UserAgify;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.jackson.JacksonConverterFactory;
+import fr.esiea.ex4A.lovemeet.AgifyServiceMock;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import java.io.IOException;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.junit.jupiter.api.Assertions.*;
+class AgifyServiceTest {
 
-public class AgifyServiceTest {
-    @ParameterizedTest
-    @CsvSource({
-        "Sébastien,FR",
-        "Samba,IL",
-        "Samy,FR"
-    })
-    void agifyService_testIT(String name, String country){
-        Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("https://api.agify.io/")
-            .addConverterFactory(JacksonConverterFactory.create())
-            .build();
+    @Mock
+    private final AgifyService agifyService;
 
-        AgifyService agifyService = retrofit.create(AgifyService.class);
+    AgifyServiceTest() {
+        this.agifyService = new AgifyService(AgifyServiceMock.getAgifyClientMock());
+    }
 
-        try {
-            Response<UserAgify> execute = agifyService.getAgeOf(name, country).execute();
-            UserAgify ageOf = execute.body();
-            if(ageOf == null){
-                fail();
-                return;
-            }
-            assertEquals(ageOf.name, name);
-            assertEquals(ageOf.country_id, country);
-        } catch (IOException e) {
-            e.printStackTrace();
-            fail();
-        }
+    @Test
+    void get_age() throws IOException {
+        assertThat(agifyService.getAge("Seb", "FR")).isEqualTo(55);
     }
 }
