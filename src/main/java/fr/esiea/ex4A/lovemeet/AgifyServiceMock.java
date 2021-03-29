@@ -4,22 +4,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.mock.BehaviorDelegate;
 import retrofit2.mock.MockRetrofit;
 import retrofit2.mock.NetworkBehavior;
-
-
 public class AgifyServiceMock {
-
     public static AgifyClient getAgifyClientMock() {
         Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(AgifyClient.BASE_URI)
             .addConverterFactory(GsonConverterFactory.create())
-            .build();
-
-        NetworkBehavior networkBehavior = NetworkBehavior.create();
+            .build(); NetworkBehavior networkBehavior = NetworkBehavior.create();
         MockRetrofit mockRetrofit = new MockRetrofit.Builder(retrofit)
             .networkBehavior(networkBehavior)
-            .build();
-        BehaviorDelegate<AgifyClient> delegate = mockRetrofit.create(AgifyClient.class);
-
-        return new AgifyClientMock(delegate);
-    }
-}
+            .build(); BehaviorDelegate<AgifyClient> delegate = mockRetrofit.create(AgifyClient.class); return new AgifyClientMock(delegate);}}

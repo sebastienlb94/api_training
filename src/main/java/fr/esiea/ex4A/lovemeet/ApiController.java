@@ -26,7 +26,6 @@ public class ApiController {
         String userName = request.get("userName");
         String userCountry = request.get("userCountry");
         Integer userAge = agifyService.getAge(userName, userCountry);
-
         User user = new User(request.get("userEmail"), userName, request.get("userTweeter"), userCountry, request.get("userSex"), request.get("userSexPref"), userAge);
         repository.getUsers().add(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
@@ -39,27 +38,15 @@ public class ApiController {
 
 
     @GetMapping("/api/matches")
-    public ResponseEntity<?> getMatches(@RequestParam("userName") String userName, @RequestParam("userCountry") String userCountry) {
-        Optional<User> opRequestUser = null;
-
+    public ResponseEntity<?> getMatches(@RequestParam("userName") String userName, @RequestParam("userCountry") String userCountry) {  Optional<User> opRequestUser = null;
         opRequestUser = repository.getUsers().stream().filter(user -> user.getUserName().equalsIgnoreCase(userName) && user.getUserCountry().equalsIgnoreCase(userCountry)).findFirst();
-
-        // user not found
         if (opRequestUser.isEmpty()) {
-            return new ResponseEntity<>(new ArrayList<User>(), HttpStatus.OK);
-        }
-
-        // find matches for user
-        List<Match> matches = new ArrayList<>();
-        User requestUser = opRequestUser.get();
-        matches = repository.getUsers().stream()
+            return new ResponseEntity<>(new ArrayList<User>(), HttpStatus.OK); }
+        List<Match> matches = new ArrayList<>(); User requestUser = opRequestUser.get(); matches = repository.getUsers().stream()
             .filter(user -> user != requestUser)
             .filter(user -> requestUser.getUserSexPref().equalsIgnoreCase(user.getUserSex()))
             .filter(user -> requestUser.getUserSex().equalsIgnoreCase(user.getUserSexPref()))
             .filter(user -> Math.abs(user.getUserAge() - requestUser.getUserAge()) <= 4)
             .map(user -> new Match(user.getUserName(), user.getUserTweeter()))
             .collect(Collectors.toList());
-
-        return new ResponseEntity<>(matches, HttpStatus.OK);
-    }
-}
+        return new ResponseEntity<>(matches, HttpStatus.OK); }}
